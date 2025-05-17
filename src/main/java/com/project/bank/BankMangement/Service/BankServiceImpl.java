@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public  class BankServiceImpl implements BankService{
@@ -22,7 +24,41 @@ public  class BankServiceImpl implements BankService{
 
     @Override
     public List<BankMangement> getBankAllDetails() {
-        return List.of();
+        List<BankMangement> presentAccount=repo.findAll();
+        if(presentAccount.isEmpty())
+            throw new RuntimeException("No Accounts active ");
+        else
+            return presentAccount;
+    }
+
+    @Override
+    public Boolean deleteBankDetails(Long id) {
+        Optional<BankMangement> deleteBankDetails=repo.findById(id);
+        if(deleteBankDetails.isEmpty()){
+            throw new RuntimeException("Bank details are not available");
+        }
+        else{
+            repo.deleteById(id);
+            return true;
+        }
+    }
+
+    @Override
+    public BankMangement updateStudentDetails(Long id, BankMangement b) {
+
+            Optional<BankMangement> presentBankDetails=repo.findById(id);
+            if( presentBankDetails.isEmpty()){
+                throw new RuntimeException("No Student present with the Id to update");
+            }
+            else{
+                BankMangement needToUpdate= presentBankDetails.get();
+                needToUpdate.setAccountHolderName(b.getAccountHolderName());
+                needToUpdate.setAccountNumber(b.getAccountNumber());
+                needToUpdate.setPhoneNumber(b.getPhoneNumber());
+                needToUpdate.setEmailId(b.getEmailId());
+                return repo.save(needToUpdate);
+            }
+
     }
 
 }

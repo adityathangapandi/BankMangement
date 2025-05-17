@@ -7,5 +7,9 @@ import java.util.List;
 public interface BankService {
     public  BankMangement addBankDetails(BankMangement b);
 
-    List<BankMangement> getBankAllDetails();
+    public List<BankMangement> getBankAllDetails();
+
+    Boolean deleteBankDetails(Long id);
+
+    BankMangement updateStudentDetails(Long id, BankMangement b);
 }

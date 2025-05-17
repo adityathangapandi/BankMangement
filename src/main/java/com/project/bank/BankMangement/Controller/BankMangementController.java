@@ -38,15 +38,45 @@ public class BankMangementController {
         try{
             List<BankMangement> presentDetails = service.getBankAllDetails();
             response.put("message","Sucessfully fetched the details ");
-            response.put("message",presentDetails);
+            response.put("Account details",presentDetails);
             return response;
-
         }
         catch(Exception e){
-            response.put("message","somenthing went wrong");
+            response.put("message",e.getMessage());
             return response;
         }
     }
+    @DeleteMapping("/delete-mapping")
+    public HashMap<String, Object> deleteBankAccount(@RequestParam long id){
+        HashMap<String, Object> response =new HashMap<String,Object>();
+        try{
+            Boolean deleteBankDetails=service.deleteBankDetails(id);
+            response.put("message","student details deleted");
+            response.put("Student",deleteBankDetails);
+            return response;
+        }
+        catch(Exception e){
+            response.put("error",e.getMessage());
+            return response;
+        }
+    }
+    @PutMapping("/update-Bankdetails")
+    public HashMap<String,Object> updateStudent(@RequestParam Long id,@RequestBody BankMangement b){
+        HashMap<String,Object> response=new HashMap<String,Object>();
+        try{
+            BankMangement updateBankDetails=service.updateStudentDetails(id,b);
+            response.put("message","student data updated sucessfully");
+            response.put("updated student",updateBankDetails);
+            return response;
+        }
+        catch(Exception e){
+
+            response.put("error",e.getMessage());
+            return response;
+        }
+
+    }
+
 
 
 

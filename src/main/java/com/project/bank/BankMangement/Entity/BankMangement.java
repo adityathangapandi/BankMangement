@@ -20,7 +20,6 @@ public class BankMangement {
     private String accountHolderName;
     private long accountNumber;
     private long phoneNumber;
-
     private String emailId;
 
 
