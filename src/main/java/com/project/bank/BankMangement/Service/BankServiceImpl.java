@@ -11,12 +11,13 @@ import java.util.Optional;
 
 
 @Service
-public  class BankServiceImpl implements BankService{
+public  class BankServiceImpl implements BankService {
     @Autowired
     private BankRepository repo;
-   public BankMangement addBankDetails(BankMangement b){
-        BankMangement presentAccount=repo.findByAccountNumber(b.getAccountNumber());
-        if(presentAccount!=null)
+
+    public BankMangement addBankDetails(BankMangement b) {
+        BankMangement presentAccount = repo.findByAccountNumber(b.getAccountNumber());
+        if (presentAccount != null)
             throw new RuntimeException("Account already exist ");
         else
             return repo.save(b);
@@ -24,8 +25,8 @@ public  class BankServiceImpl implements BankService{
 
     @Override
     public List<BankMangement> getBankAllDetails() {
-        List<BankMangement> presentAccount=repo.findAll();
-        if(presentAccount.isEmpty())
+        List<BankMangement> presentAccount = repo.findAll();
+        if (presentAccount.isEmpty())
             throw new RuntimeException("No Accounts active ");
         else
             return presentAccount;
@@ -33,11 +34,10 @@ public  class BankServiceImpl implements BankService{
 
     @Override
     public Boolean deleteBankDetails(Long id) {
-        Optional<BankMangement> deleteBankDetails=repo.findById(id);
-        if(deleteBankDetails.isEmpty()){
+        Optional<BankMangement> deleteBankDetails = repo.findById(id);
+        if (deleteBankDetails.isEmpty()) {
             throw new RuntimeException("Bank details are not available");
-        }
-        else{
+        } else {
             repo.deleteById(id);
             return true;
         }
@@ -46,19 +46,39 @@ public  class BankServiceImpl implements BankService{
     @Override
     public BankMangement updateStudentDetails(Long id, BankMangement b) {
 
-            Optional<BankMangement> presentBankDetails=repo.findById(id);
-            if( presentBankDetails.isEmpty()){
-                throw new RuntimeException("No Student present with the Id to update");
-            }
-            else{
-                BankMangement needToUpdate= presentBankDetails.get();
-                needToUpdate.setAccountHolderName(b.getAccountHolderName());
-                needToUpdate.setAccountNumber(b.getAccountNumber());
-                needToUpdate.setPhoneNumber(b.getPhoneNumber());
-                needToUpdate.setEmailId(b.getEmailId());
-                return repo.save(needToUpdate);
-            }
+        Optional<BankMangement> presentBankDetails = repo.findById(id);
+        if (presentBankDetails.isEmpty()) {
+            throw new RuntimeException("No Student present with the Id to update");
+        } else {
+            BankMangement needToUpdate = presentBankDetails.get();
+            needToUpdate.setAccountHolderName(b.getAccountHolderName());
+            needToUpdate.setAccountNumber(b.getAccountNumber());
+            needToUpdate.setPhoneNumber(b.getPhoneNumber());
+            needToUpdate.setEmailId(b.getEmailId());
+            return repo.save(needToUpdate);
+        }
 
     }
 
+    @Override
+    public List<BankMangement> getUsernameDetails(String accountHolderName) {
+        List<BankMangement> useraccount = repo.findByAccountHolderName(accountHolderName);
+        if (useraccount.isEmpty()) {
+            throw new RuntimeException("Account not  exist ");
+        }
+        else {
+            return useraccount;
+        }
+
+    }
+
+
+
 }
+
+
+
+
+
+
+

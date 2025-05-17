@@ -12,4 +12,9 @@ public interface BankService {
     Boolean deleteBankDetails(Long id);
 
     BankMangement updateStudentDetails(Long id, BankMangement b);
+
+   //List<BankMangement> getUserDetails(String accountHolderName);
+
+
+    List<BankMangement> getUsernameDetails(String accountHolderName);
 }

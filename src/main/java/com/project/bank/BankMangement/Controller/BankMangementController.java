@@ -12,8 +12,11 @@ import java.util.List;
 
 @RestController
 public class BankMangementController {
+
     @Autowired
     private BankService service;
+    private final String emailId="aditya@gmail.com";
+    private final String password="aditya@4311";
 
 
     @PostMapping("/add-details")
@@ -76,7 +79,38 @@ public class BankMangementController {
         }
 
     }
+    @GetMapping("/get-customerdetails")
+     public HashMap<String, Object> getUsernameDetails(@RequestParam String accountHolderName){
+        HashMap<String,Object> response=new HashMap<String,Object>();
+        try{
+            List<BankMangement> presentDetails = service.getUsernameDetails(accountHolderName);
+            response.put("message","Successfully fetched the details ");
+            response.put("Account details",presentDetails);
+            return response;
+        }
+        catch(Exception e){
+            response.put("message",e.getMessage());
+            return response;
+        }
+    }
+    @PostMapping("/login")
+    public HashMap<String,Object> loginUser(@RequestParam String email,@RequestParam String pwd) {
+        HashMap<String, Object> response = new HashMap<String, Object>();
+        try{
+            if(email.equals(emailId) && pwd.equals(password)) {
+                response.put("message", "Aditya logged in successfully");
+                return response;
+            }
+            else{
+                response.put("msg","Invalid details please try again");
+                return response;
+            }
+        } catch (Exception e) {
+          response.put("message","some error is occured");
+          return response;
+        }
 
+    }
 
 
 
